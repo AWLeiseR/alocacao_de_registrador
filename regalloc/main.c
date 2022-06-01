@@ -165,6 +165,7 @@ int selectAssign(Grafo g, Pilha p) {
 
             else {
                 printf("Pop: %d -> NO COLOR AVAILABLE\n", getNumVertice(v));
+                desalocaVertice(v, 0);
                 success = 0;
             }
         } else { // desaloca os vertices que permaneceram na pilha
@@ -199,8 +200,6 @@ void main() {
 
         if (selectAssign(grafoCopia, p))
             resultados[c] = 1;
-        else
-            resultados[c] = 0;
 
         destroiGrafo(grafoCopia, 0);
         qtdCores--;
