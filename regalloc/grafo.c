@@ -15,6 +15,7 @@ typedef struct {
     int qtdVerticesOcupados;
     int num;
     int qtdCores;
+    int menorNumVert;
 
 } Graph;
 
@@ -32,6 +33,7 @@ Grafo criaGrafo(int num, Lista vertices) {
         nv = getNext(nv);
     }
 
+    gr->menorNumVert = gr->vertices[0]->numero;
     return gr;
 }
 
@@ -52,10 +54,9 @@ int getQtdVerticesOcupados(Grafo grafo) {
 
 /*
 
-a lista passada por parâmetro contém os numeros dos vertice que são adjacentes a este vertice
-sejam eles registradores físicos ou virtuais
+    a lista passada por parâmetro contém os numeros dos vertice que são adjacentes a este vertice
+    sejam eles registradores físicos ou virtuais
 */
-
 Vertice criaVertice(int num, Lista adjacentes) {
     Vert *vertice = malloc(sizeof(Vert));
     vertice->numero = num;
@@ -80,16 +81,17 @@ int getCorVertice(Vertice v) {
     return vertice->cor;
 }
 
+int getIndiceVerticeNoVetor(Graph *gr, int num) {
+    return num - gr->menorNumVert;
+}
+
 Vert *getVertice(Graph *gr, int num) {
 
-    for (int i = 0; i < gr->qtdVertices; i++) {
-        Vert *v = gr->vertices[i];
-        if (v != NULL && v->numero == num) {
-            return v;
-        }
-    }
-
-    return NULL;
+    int indice = getIndiceVerticeNoVetor(gr, num);
+    if (indice > 0)
+        return gr->vertices[indice];
+    else
+        return NULL;
 }
 
 int insereEColoreVertice(Grafo grafo, Vertice v) {
@@ -138,9 +140,8 @@ int insereEColoreVertice(Grafo grafo, Vertice v) {
     }
 
     vert->cor = cor;
-    gr->vertices[gr->qtdVerticesOcupados] = vert; // inserindo o vertice
+    gr->vertices[getIndiceVerticeNoVetor(gr, vert->numero)] = vert; // inserindo o vertice
     gr->qtdVerticesOcupados++;
-    // printf("gr->qtdVerticesOcupados: %d     ", gr->qtdVerticesOcupados);
     return 1;
 }
 

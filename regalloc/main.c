@@ -65,7 +65,7 @@ Lista getListaAdjacentesVertice(int num) {
 */
 void build() {
 
-    char linha[1000];
+    char linha[2500];
     char s[7];
     int numGrafo;
 
@@ -87,24 +87,19 @@ void build() {
         int reg;
 
         numReg = atoi(strtok(linha, " "));
-        // printf("%d ", numReg);
 
         aux = strtok(NULL, " ");
-        // printf("%s ", aux);
 
         while (aux != NULL) {
             aux = strtok(NULL, " ");
             if (aux != NULL) {
                 reg = atoi(aux);
                 insert(adjacentes, reg);
-                // printf("%d ", atoi(aux));
             }
         }
 
         Vertice v = criaVertice(numReg, adjacentes);
         insert(vertices, v);
-        // printaLista(adjacentes, printaInt, stdout);
-        // printf("\n");
     }
 
     grafo = criaGrafo(numGrafo, vertices);
@@ -156,8 +151,6 @@ int selectAssign(Grafo g, Pilha p) {
     while (!isEmpty(p)) {
         Vertice v = pop(p);
 
-        // printaLista(getAdjacentesVertice(v), printaInt, stdout);
-        // printf("\n");
         if (success == 1) {
 
             if (insereEColoreVertice(g, v))
@@ -187,15 +180,12 @@ void main() {
     int *resultados = calloc(tamResultados, sizeof(int));
 
     while (qtdCores > 1) {
-        // qtdCores = 5;
         Grafo grafoCopia = copiaGrafo();
         setQtdCoresGrafo(grafoCopia, qtdCores);
 
         printf("----------------------------------------\n");
         printf("K = %d\n\n", qtdCores);
-        // printf("K = %d\n\n", 5);
 
-        // printaGrafo(grafoCopia);
         Pilha p = simplify(grafoCopia);
 
         if (selectAssign(grafoCopia, p))
